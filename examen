@@ -1,0 +1,123 @@
+/*
+ UNIVERSIDAD POLITECNICA METROPOLITANA DE HIDALGO
+ ESTRUCTURA DE DATOS
+OBJETIVO: CONSTRUIR UN PROGRAMA QUE PERMITA REGISTRAR CLIENTES EN COLAS
+AUTOR:    QUINTANAR RUIZ LUIS RODRIGO
+FECHA:    30/ENE/2021
+
+ */
+
+//IMPORTAR LIBRERÍAS
+package Jproyecto; 
+import java.util.Scanner;
+
+public class Jproyecto {
+//Definición de variables y objetos globales. Se usarán en todos los procedimientos.
+    static clsProyecto PilaObjetos[]; //DEFINIR UN ARREGLO DINÁMICO
+    static int limite = 0, apoyo; //DEFINIR EL INICIO DEL ARREGLO. PERMITIRÁ IDENTIFICAR CUANTOS VALORES HAY.
+   
+    public static void main(String[] args) {
+        String opcion;
+        Scanner in = new Scanner(System.in);
+        clsProyecto elemento, auxiliar[]; //Crear una variable auxiliar y temporal
+        do{
+            //VISUALIZAR EL MENÚ DE OPCIONES
+            menu();
+            opcion = in.nextLine(); //ESPERA A LA CAPTURA DE CARACTERES
+            
+            switch(opcion){
+                case "1": //INSERTAR DATOS A LA PILA
+                    pilaInsertar();
+                    break;
+                case"2":
+                    EliminarPila();
+                    break;
+                case"3":
+                    
+                    if (limite == 0){
+                        System.out.println("No hay artículos en el inventario");
+                    }
+                    else{
+                         System.out.println("Impresión de la Pila\n");
+                         for(int i=0; i<PilaObjetos.length;i++){
+                             System.out.println("[" + i + "]" + PilaObjetos[i].Numero);
+                         }
+                    }
+                    break;
+                    
+            }
+        }while(!opcion.equals("4"));//Termina el ciclo en caso de que se elija la opción de salida
+        System.out.println("\n--------------------------------------------");
+        System.out.println("-------- Programa desarrollado por: --------");
+        System.out.println("------ Jesus David Juarez Garcia -----------");
+        System.out.println("----- Mario Alberto Lopez Morales ----------");
+        System.out.println("----- Luis {rodrigo Quintanar Ruiz ---------");
+        System.out.println("----- Oscar Mauricio Sanchez Camargo -------");
+        System.out.println("--------------------------------------------");
+    }
+    public static void menu(){
+        System.out.println("\n--------------------");
+        System.out.println(" --- Manejo de una Pila --- ");
+        System.out.println("--------------------");
+        System.out.println("*****Menú de Acciones:******");
+        System.out.println("1. Insertar datos a la pila");
+        System.out.println("2. Eliminar un dato de la pila");
+        System.out.println("3. Listar Objetos de la pila");
+        System.out.println("4. Salir\n");
+        System.out.println("Captura una opción"); 
+    }
+    public static void pilaInsertar(){
+        clsProyecto elemento = null, auxiliar[];
+        Scanner in=new Scanner(System.in);
+        System.out.println("Insercion de nuevo elemtos en la cola");
+        if(apoyo==1){
+            for(int i=limite; i<PilaObjetos.length; i++){
+               elemento=new clsProyecto();
+               System.out.print("Captura el ID: ");
+               elemento.Numero=in.nextInt();
+            }
+        }
+        else{
+            elemento=new clsProyecto();
+            System.out.print("Captura el ID: ");
+            elemento.Numero=in.nextInt();
+        }
+        limite+=1;
+        //CAPTURA LOS DATOS DEL ELEMTO NUEVO
+        
+        if(limite == 1){ //1. Verificar si es el primer elemento de la cola
+            PilaObjetos = new clsProyecto[limite];
+            PilaObjetos[0] = elemento;
+        }
+        else{
+            // 2.-) El arreglo tiene 1 elemento o más
+            // Respaldar los datos que se tienen
+            // Se necesita apoyo de un arreglo auxiliar
+            auxiliar = new clsProyecto[PilaObjetos.length];
+            System.arraycopy(PilaObjetos,0,auxiliar,0,PilaObjetos.length);
+            //Destruir inventario[] y volver a redimensionar
+            PilaObjetos = null;
+            PilaObjetos = new clsProyecto[limite];
+            //Acomodar los elementos en el arreglo auxiliar
+            System.arraycopy(auxiliar, 0, PilaObjetos, 0, auxiliar.length);
+            // Agregar el nuevo elemento
+            PilaObjetos[limite-1] = elemento;
+        }
+    }
+    public static void EliminarPila(){
+        System.out.println("Verificacion de entrada");
+        if (limite == 0){
+            System.out.println("No hay artículos en el inventario");
+        }
+        else{
+            apoyo=0;//Varible que ayuadara a colocar elementos en el espacio de memoria
+            // que se "elemine"
+            for(int i=limite;i<PilaObjetos.length;i--){
+                PilaObjetos[i].Numero=0;
+                apoyo=1;//La variable apoyo sera 1 para poder sustituir elemento en el espacio eliminarlo
+            }            
+        }
+        System.out.println("Elemento borrado corectamente");
+    }
+}
+           
